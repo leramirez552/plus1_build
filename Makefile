@@ -27,18 +27,16 @@ include ./build/color.mak
 sinclude ./.config
 sinclude ./.hwconfig
 
-TOOLCHAIN_V7_PATH = $(TOPDIR)/crossgcc/arm-linux-gnueabihf/bin
-TOOLCHAIN_V5_PATH = $(TOPDIR)/crossgcc/armv5-eabi--glibc--stable/bin
-TOOLCHAIN_NONOS_PATH = $(TOPDIR)/crossgcc/gcc-arm-9.2-2019.12-x86_64-arm-none-eabi/bin
-TOOLCHAIN_RISCV_PATH = $(TOPDIR)/crossgcc/riscv64-sifive-linux-gnu/bin
+TOOLCHAIN_PATH = /usr/bin
 
-CROSS_V7_COMPILE = $(TOOLCHAIN_V7_PATH)/arm-linux-gnueabihf-
-CROSS_V5_COMPILE = $(TOOLCHAIN_V5_PATH)/armv5-glibc-linux-
-CROSS_NONOS_COMPILE = $(TOOLCHAIN_NONOS_PATH)/arm-none-eabi-
-CROSS_RISCV_COMPILE = $(TOOLCHAIN_RISCV_PATH)/riscv64-sifive-linux-gnu-
-CROSS_RISCV_UNKNOWN_COMPILE = $(TOPDIR)/crossgcc/riscv64-unknown-elf/bin/riscv64-unknown-elf-
-CROSS_ARM64_COMPILE = $(TOPDIR)/crossgcc/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
-CROSS_ARM64_XBOOT_COMPILE = $(TOPDIR)/crossgcc/gcc-arm-9.2-2019.12-x86_64-arm-none-eabi/bin/arm-none-eabi-
+
+CROSS_V7_COMPILE = $(TOOLCHAIN_PATH)/arm-linux-gnueabihf-
+CROSS_V5_COMPILE = $(TOOLCHAIN_PATH)/arm-none-eabi-
+CROSS_NONOS_COMPILE = $(TOOLCHAIN_PATH)/arm-none-eabi-
+CROSS_RISCV_COMPILE = $(TOOLCHAIN_PATH)/riscv64-sifive-linux-gnu-
+CROSS_RISCV_UNKNOWN_COMPILE = $(TOOLCHAIN_PATH)/riscv64-linux-gnu-
+CROSS_ARM64_COMPILE = $(TOOLCHAIN_PATH)/aarch64-linux-gnu-
+CROSS_ARM64_XBOOT_COMPILE =  $(TOOLCHAIN_PATH)/arm-none-eabi-
 
 NEED_ISP ?= 0
 ZEBU_RUN ?= 0
@@ -554,10 +552,6 @@ mt: check
 	@$(MAKE) rootfs rom
 
 init:
-	@if ! [ -f $(CROSS_COMPILE_FOR_LINUX) ]; then \
-		pwd; \
-		./build/dlgcc.sh; \
-	fi
 	@$(RM) -f $(CONFIG_ROOT)
 	@./build/config.sh $(CROSS_V7_COMPILE) $(CROSS_RISCV_COMPILE)
 
